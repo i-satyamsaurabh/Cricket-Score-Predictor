@@ -7,6 +7,12 @@ A sophisticated machine learning web application that predicts final scores in T
 ![Flask](https://img.shields.io/badge/Flask-2.0+-red)
 ![ML](https://img.shields.io/badge/ML-Cricket%20Aware-orange)
 
+## 🖥️ Application Preview
+
+![T20 Score Predictor Interface](assets/screenshot.png)
+
+*Modern, responsive web interface with real-time predictions and cricket intelligence*
+
 ## ✨ Features
 
 ### 🎯 **Intelligent Predictions**
@@ -156,6 +162,8 @@ t20-score-predictor/
 ├── templates/
 │   └── index.html        # Web interface (if using templates)
 ├── static/               # CSS, JS, images (if separated)
+├── assets/               # Screenshots and documentation images
+│   └── screenshot.png    # Application interface preview
 ├── score_predictor.pkl   # Trained ML model
 ├── requirements.txt      # Python dependencies
 └── README.md            # Project documentation
