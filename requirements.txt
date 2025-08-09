@@ -2,6 +2,7 @@
 Flask==2.3.3
 gunicorn==20.1.0
 requests==2.31.0
+joblib
 
 # Only add these if your app actually needs them:
 # Flask-SQLAlchemy==3.0.5
@@ -13,3 +14,5 @@ requests==2.31.0
 # Add data processing only if essential:
 # numpy==1.24.4
 # pandas==2.0.3
+
+
