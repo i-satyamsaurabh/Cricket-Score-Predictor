@@ -1,6 +1,6 @@
 # 🏏 T20 Score Predictor
 
-A sophisticated machine learning web application that predicts final scores in T20 cricket matches using advanced cricket-aware features and real-time match situations.
+A mordern machine learning web application project that predicts final scores in T20 cricket matches using advanced cricket-aware features and real-time match situations.
 
 ![T20 Score Predictor](https://img.shields.io/badge/T20-Score%20Predictor-blue)
 ![Python](https://img.shields.io/badge/Python-3.8+-green)
