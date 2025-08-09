@@ -103,7 +103,7 @@ joblib==1.3.2
   "batting_team": "India",
   "bowling_team": "Australia",
   "city": "Mumbai",
-  "current_score": 120,
+  "current_score": 80,
   "balls_left": 60,
   "wickets_left": 6,
   "run_rate": 8.5,
@@ -115,9 +115,9 @@ joblib==1.3.2
 **Response**:
 ```json
 {
-  "predicted_score": 165,
+  "predicted_score": 173-183,
   "insights": [
-    "Need 45 runs from 10.0 overs (Required RR: 4.50)",
+    "Score 95 runs from 10.0 overs (Predcited RR: 4.50)",
     "🔥 Death overs - time for big hitting and calculated risks!",
     "⚖️ Balanced situation - need to manage wickets carefully"
   ],
