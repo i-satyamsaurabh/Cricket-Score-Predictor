@@ -10,4 +10,4 @@ Flask-JWT-Extended==4.6.0
 numpy==1.26.4
 pandas==2.1.4
 scikit-learn
-joblib
+
