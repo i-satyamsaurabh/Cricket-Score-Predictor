@@ -1,20 +1,18 @@
-# Ultra-minimal Flask app requirements
+# Core Flask dependencies
 Flask==2.3.3
 gunicorn==20.1.0
 requests==2.31.0
-joblib
+joblib==1.3.2
 
-# Only add these if your app actually needs them:
+# Database dependencies (only if needed)
 Flask-SQLAlchemy==3.0.5
 SQLAlchemy==2.0.21
 Flask-Migrate==4.0.5
+
+# CORS and JWT (only if needed)
 Flask-Cors==4.0.0
 Flask-JWT-Extended==4.5.3
 
-# Add data processing only if essential:
-numpy==1.24.4
-pandas==2.0.3
-
-
-
-
+# Data processing - using compatible versions for Python 3.13
+numpy==1.26.4
+pandas==2.1.4
