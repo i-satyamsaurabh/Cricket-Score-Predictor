@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T20 Score Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .cricket-icon {
+            width: 45px;
+            height: 45px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 6px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        input:hover,
+        select:hover {
+            border-color: #cbd5e0;
+            background: white;
+        }
+
+        .error {
+            color: #e53e3e;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .predict-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .predict-btn:active {
+            transform: translateY(0);
+        }
+
+        .predict-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #81b6f7, #9ffc33);
+            color: white;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: 600;
+            animation: pulse 0.6s ease-out;
+            display: none;
+        }
+
+        .result.error {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+        }
+
+        .insights {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .insights h4 {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #f0f8ff;
+        }
+
+        .insights ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .insights li {
+            margin: 8px 0;
+            padding-left: 5px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .form-row-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+
+            .form-row,
+            .form-row-2,
+            .form-row-3,
+            .form-row-4 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .container {
+                padding: 20px;
+                margin: 10px;
+                max-width: 95%;
+            }
+        }
+
+        .tooltip {
+            position: absolute;
+            right: 10px;
+            top: 32px;
+            background: #2d3748;
+            color: white;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+
+        .form-group:hover .tooltip {
+            opacity: 1;
+        }
+
+        .validation-icon {
+            position: absolute;
+            right: 12px;
+            top: 40px;
+            font-size: 16px;
+            display: none;
+        }
+
+        .valid {
+            color: #48bb78;
+        }
+
+        .invalid {
+            color: #e53e3e;
+        }
+
+        .score-range {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="cricket-icon">🏏</div>
+            <h1>T20 Score Predictor</h1>
+            <p>Predict the final score based on current match situation</p>
+        </div>
+
+        <form id="predictorForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="batting_team">Batting Team</label>
+                    <select name="batting_team" id="batting_team" required>
+                        <option value="">Select Batting Team</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="England">England</option>
+                        <option value="India">India</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Scotland">Scotland</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="West Indies">West Indies</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
+                    <div class="validation-icon" id="batting_team_icon"></div>
+                    <div class="error" id="batting_team_error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="bowling_team">Bowling Team</label>
+                    <select name="bowling_team" id="bowling_team" required>
+                        <option value="">Select Bowling Team</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Bangladesh">Bangladesh</option>
+                        <option value="England">England</option>
+                        <option value="India">India</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Scotland">Scotland</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="West Indies">West Indies</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                    </select>
+                    <div class="validation-icon" id="bowling_team_icon"></div>
+                    <div class="error" id="bowling_team_error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Venue City</label>
+                    <select name="city" id="city" required>
+                        <option value="">Select City</option>
+                        <option value="Abu Dhabi">Abu Dhabi</option>
+                        <option value="Adelaide">Adelaide</option>
+                        <option value="Ahmedabad">Ahmedabad</option>
+                        <option value="Auckland">Auckland</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Barbados">Barbados</option>
+                        <option value="Basseterre">Basseterre</option>
+                        <option value="Belfast">Belfast</option>
+                        <option value="Birmingham">Birmingham</option>
+                        <option value="Brisbane">Brisbane</option>
+                        <option value="Bristol">Bristol</option>
+                        <option value="Cape Town">Cape Town</option>
+                        <option value="Cardiff">Cardiff</option>
+                        <option value="Centurion">Centurion</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chattogram">Chattogram</option>
+                        <option value="Chester-le-Street">Chester-le-Street</option>
+                        <option value="Chittagong">Chittagong</option>
+                        <option value="Christchurch">Christchurch</option>
+                        <option value="Colombo">Colombo</option>
+                        <option value="Dambulla">Dambulla</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Dubai">Dubai</option>
+                        <option value="Dublin">Dublin</option>
+                        <option value="Durban">Durban</option>
+                        <option value="Edinburgh">Edinburgh</option>
+                        <option value="Gros Islet">Gros Islet</option>
+                        <option value="Guyana">Guyana</option>
+                        <option value="Hambantota">Hambantota</option>
+                        <option value="Hamilton">Hamilton</option>
+                        <option value="Harare">Harare</option>
+                        <option value="Hobart">Hobart</option>
+                        <option value="Johannesburg">Johannesburg</option>
+                        <option value="Kandy">Kandy</option>
+                        <option value="Karachi">Karachi</option>
+                        <option value="Kingston">Kingston</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Lahore">Lahore</option>
+                        <option value="Lauderhill">Lauderhill</option>
+                        <option value="London">London</option>
+                        <option value="Manchester">Manchester</option>
+                        <option value="Melbourne">Melbourne</option>
+                        <option value="Mirpur">Mirpur</option>
+                        <option value="Mount Maunganui">Mount Maunganui</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Nagpur">Nagpur</option>
+                        <option value="Napier">Napier</option>
+                        <option value="Nottingham">Nottingham</option>
+                        <option value="Pallekele">Pallekele</option>
+                        <option value="Perth">Perth</option>
+                        <option value="Providence">Providence</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Rajkot">Rajkot</option>
+                        <option value="Sharjah">Sharjah</option>
+                        <option value="Southampton">Southampton</option>
+                        <option value="St George's">St George's</option>
+                        <option value="St Lucia">St Lucia</option>
+                        <option value="Sydney">Sydney</option>
+                        <option value="Tarouba">Tarouba</option>
+                        <option value="Trinidad">Trinidad</option>
+                        <option value="Wellington">Wellington</option>
+                    </select>
+                    <div class="validation-icon" id="city_icon"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="current_score">Current Score</label>
+                    <input type="number" name="current_score" id="current_score" min="0" max="400" required>
+                    <div class="tooltip">Max: 400 runs</div>
+                    <div class="validation-icon" id="current_score_icon"></div>
+                    <div class="error" id="current_score_error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="balls_left">Balls Left</label>
+                    <input type="number" name="balls_left" id="balls_left" min="0" max="120" required>
+                    <div class="tooltip">Max: 120 balls</div>
+                    <div class="validation-icon" id="balls_left_icon"></div>
+                    <div class="error" id="balls_left_error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="wickets_left">Wickets Left</label>
+                    <input type="number" name="wickets_left" id="wickets_left" min="0" max="10" required>
+                    <div class="tooltip">Max: 10 wickets</div>
+                    <div class="validation-icon" id="wickets_left_icon"></div>
+                    <div class="error" id="wickets_left_error"></div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="run_rate">Current Run Rate</label>
+                    <input type="number" name="run_rate" id="run_rate" min="0" max="36" step="0.01" required>
+                    <div class="tooltip">Max: 36 runs/over</div>
+                    <div class="validation-icon" id="run_rate_icon"></div>
+                    <div class="error" id="run_rate_error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="last_five_run">Runs in Last 5 Overs</label>
+                    <input type="number" name="last_five_run" id="last_five_run" min="0" max="180" step="0.01" required>
+                    <div class="tooltip">Max: 180 runs (36×5)</div>
+                    <div class="validation-icon" id="last_five_run_icon"></div>
+                    <div class="error" id="last_five_run_error"></div>
+                </div>
+                <div class="form-group">
+                    <label for="last_five_over_wicket">Wickets Lost in Last 5 Overs</label>
+                    <input type="number" name="last_five_over_wicket" id="last_five_over_wicket" min="0" max="10"
+                        value="0" required>
+                    <div class="tooltip">Wickets lost in the last 5 overs</div>
+                    <div class="validation-icon" id="last_five_over_wicket_icon"></div>
+                    <div class="error" id="last_five_over_wicket_error"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="predict-btn" id="submitBtn">
+                Predict Final Score
+            </button>
+        </form>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('predictorForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultDiv = document.getElementById('result');
+
+        // Validation functions
+        function validateTeams() {
+            const battingTeam = document.getElementById('batting_team').value;
+            const bowlingTeam = document.getElementById('bowling_team').value;
+            const battingError = document.getElementById('batting_team_error');
+            const bowlingError = document.getElementById('bowling_team_error');
+
+            if (battingTeam && bowlingTeam && battingTeam === bowlingTeam) {
+                showError('batting_team', 'Batting and bowling teams cannot be the same');
+                showError('bowling_team', 'Batting and bowling teams cannot be the same');
+                return false;
+            } else {
+                hideError('batting_team');
+                hideError('bowling_team');
+                return true;
+            }
+        }
+
+        function validateCurrentScore() {
+            const score = parseInt(document.getElementById('current_score').value);
+            if (score < 0 || score > 400) {
+                showError('current_score', 'Current score must be between 0 and 400');
+                return false;
+            }
+            hideError('current_score');
+            return true;
+        }
+
+        function validateBallsLeft() {
+            const balls = parseInt(document.getElementById('balls_left').value);
+            if (balls < 0 || balls > 120) {
+                showError('balls_left', 'Balls left must be between 0 and 120');
+                return false;
+            }
+            hideError('balls_left');
+            return true;
+        }
+
+        function validateWicketsLeft() {
+            const wickets = parseInt(document.getElementById('wickets_left').value);
+            if (wickets < 0 || wickets > 10) {
+                showError('wickets_left', 'Wickets left must be between 0 and 10');
+                return false;
+            }
+            hideError('wickets_left');
+            return true;
+        }
+
+        function validateRunRate() {
+            const runRate = parseFloat(document.getElementById('run_rate').value);
+            const currentScore = parseInt(document.getElementById('current_score').value);
+            const ballsLeft = parseInt(document.getElementById('balls_left').value);
+
+            if (runRate < 0 || runRate > 36) {
+                showError('run_rate', 'Run rate must be between 0 and 36');
+                return false;
+            }
+
+            // Calculate realistic run rate based on current situation
+            if (currentScore && ballsLeft) {
+                const ballsFaced = 120 - ballsLeft;
+                const oversFaced = ballsFaced / 6;
+                if (oversFaced > 0) {
+                    const actualRunRate = currentScore / oversFaced;
+                    if (Math.abs(runRate - actualRunRate) > 2) {
+                        showError('run_rate', 'Run rate seems inconsistent with current score and balls faced');
+                        return false;
+                    }
+                }
+            }
+
+            hideError('run_rate');
+            return true;
+        }
+
+        function validateLastFiveRun() {
+            const lastFiveRun = parseFloat(document.getElementById('last_five_run').value);
+            if (lastFiveRun < 0 || lastFiveRun > 180) {
+                showError('last_five_run', 'Runs in last 5 overs must be between 0 and 180');
+                return false;
+            }
+            hideError('last_five_run');
+            return true;
+        }
+
+        function validateLastFiveOverWicket() {
+            const wickets = parseInt(document.getElementById('last_five_over_wicket').value);
+            const wicketsLeft = parseInt(document.getElementById('wickets_left').value);
+
+            if (wickets < 0 || wickets > 10) {
+                showError('last_five_over_wicket', 'Wickets in last 5 overs must be between 0 and 10');
+                return false;
+            }
+
+            // Validate that wickets lost in last 5 overs cannot exceed total wickets lost
+            if (wicketsLeft && wickets > (10 - wicketsLeft)) {
+                showError('last_five_over_wicket', 'Cannot exceed total wickets lost in the innings');
+                return false;
+            }
+
+            hideError('last_five_over_wicket');
+            return true;
+        }
+
+        function showError(fieldId, message) {
+            const errorDiv = document.getElementById(fieldId + '_error');
+            const icon = document.getElementById(fieldId + '_icon');
+            const field = document.getElementById(fieldId);
+
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            field.style.borderColor = '#e53e3e';
+
+            if (icon) {
+                icon.textContent = '✗';
+                icon.className = 'validation-icon invalid';
+                icon.style.display = 'block';
+            }
+        }
+
+        function hideError(fieldId) {
+            const errorDiv = document.getElementById(fieldId + '_error');
+            const icon = document.getElementById(fieldId + '_icon');
+            const field = document.getElementById(fieldId);
+
+            errorDiv.style.display = 'none';
+            field.style.borderColor = '#48bb78';
+
+            if (icon) {
+                icon.textContent = '✓';
+                icon.className = 'validation-icon valid';
+                icon.style.display = 'block';
+            }
+        }
+
+        function validateForm() {
+            const validations = [
+                validateTeams(),
+                validateCurrentScore(),
+                validateBallsLeft(),
+                validateWicketsLeft(),
+                validateRunRate(),
+                validateLastFiveRun(),
+                validateLastFiveOverWicket()
+            ];
+
+            return validations.every(v => v === true);
+        }
+
+        // Real-time validation
+        document.getElementById('batting_team').addEventListener('change', validateTeams);
+        document.getElementById('bowling_team').addEventListener('change', validateTeams);
+        document.getElementById('current_score').addEventListener('input', validateCurrentScore);
+        document.getElementById('balls_left').addEventListener('input', validateBallsLeft);
+        document.getElementById('wickets_left').addEventListener('input', validateWicketsLeft);
+        document.getElementById('run_rate').addEventListener('input', validateRunRate);
+        document.getElementById('last_five_run').addEventListener('input', validateLastFiveRun);
+        document.getElementById('last_five_over_wicket').addEventListener('input', validateLastFiveOverWicket);
+
+        // Form submission
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            // Show loading state
+            submitBtn.textContent = 'Predicting...';
+            submitBtn.disabled = true;
+            resultDiv.style.display = 'none';
+
+            // Collect form data
+            const formData = new FormData(form);
+
+            // Call Flask API
+            fetch('/api/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    batting_team: formData.get('batting_team'),
+                    bowling_team: formData.get('bowling_team'),
+                    city: formData.get('city'),
+                    current_score: parseInt(formData.get('current_score')),
+                    balls_left: parseInt(formData.get('balls_left')),
+                    wickets_left: parseInt(formData.get('wickets_left')),
+                    run_rate: parseFloat(formData.get('run_rate')),
+                    last_five_run: parseFloat(formData.get('last_five_run')),
+                    last_five_over_wicket: parseInt(formData.get('last_five_over_wicket'))
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error || data.errors) {
+                        // Handle errors
+                        const errorMessage = data.error || data.errors.join(', ');
+                        resultDiv.innerHTML = `<div class="score-range">Error: ${errorMessage}</div>`;
+                        resultDiv.className = 'result error';
+                    } else {
+                        // Show prediction range
+                        const prediction = data.predicted_score;
+                        const lowerRange = Math.max(data.current_score, prediction - 5);
+                        const upperRange = prediction + 5;
+
+                        let resultHTML = `<div class="score-range">Predicted Final Score: ${lowerRange} - ${upperRange} runs</div>`;
+
+                        // Add insights if available
+                        if (data.insights && data.insights.length > 0) {
+                            resultHTML += `
+                                <div class="insights">
+                                    <h4>🔍 Cricket Intelligence Insights:</h4>
+                                    <ul>
+                                        ${data.insights.map(insight => `<li>${insight}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            `;
+                        }
+
+                        resultDiv.innerHTML = resultHTML;
+                        resultDiv.className = 'result';
+                    }
+                    resultDiv.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultDiv.innerHTML = `<div class="score-range">Network error. Please try again.</div>`;
+                    resultDiv.className = 'result error';
+                    resultDiv.style.display = 'block';
+                })
+                .finally(() => {
+                    // Reset button state
+                    submitBtn.textContent = 'Predict Final Score';
+                    submitBtn.disabled = false;
+                });
+        });
+
+        // Auto-calculate run rate helper
+        document.getElementById('current_score').addEventListener('input', function () {
+            const score = parseInt(this.value);
+            const ballsLeft = parseInt(document.getElementById('balls_left').value);
+
+            if (score && ballsLeft) {
+                const ballsFaced = 120 - ballsLeft;
+                const oversFaced = ballsFaced / 6;
+                if (oversFaced > 0) {
+                    const calculatedRunRate = (score / oversFaced).toFixed(2);
+                    document.getElementById('run_rate').value = calculatedRunRate;
+                    validateRunRate();
+                }
+            }
+        });
+
+        document.getElementById('balls_left').addEventListener('input', function () {
+            const ballsLeft = parseInt(this.value);
+            const score = parseInt(document.getElementById('current_score').value);
+
+            if (score && ballsLeft) {
+                const ballsFaced = 120 - ballsLeft;
+                const oversFaced = ballsFaced / 6;
+                if (oversFaced > 0) {
+                    const calculatedRunRate = (score / oversFaced).toFixed(2);
+                    document.getElementById('run_rate').value = calculatedRunRate;
+                    validateRunRate();
+                }
+            }
+        });
+
+        // Cross-validation for wickets
+        document.getElementById('wickets_left').addEventListener('input', validateLastFiveOverWicket);
+    </script>
+</body>
+
+</html>
