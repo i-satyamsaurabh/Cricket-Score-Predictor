@@ -19,7 +19,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
@@ -101,6 +101,8 @@
             transition: all 0.3s ease;
             background: #f7fafc;
             color: #2d3748;
+            min-height: 48px;
+            /* Better touch target for mobile */
         }
 
         input:focus,
@@ -127,7 +129,7 @@
 
         .predict-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
@@ -139,6 +141,8 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 5px;
+            min-height: 56px;
+            /* Better touch target */
         }
 
         .predict-btn:hover {
@@ -235,23 +239,6 @@
             gap: 20px;
         }
 
-        @media (max-width: 768px) {
-
-            .form-row,
-            .form-row-2,
-            .form-row-3,
-            .form-row-4 {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .container {
-                padding: 20px;
-                margin: 10px;
-                max-width: 95%;
-            }
-        }
-
         .tooltip {
             position: absolute;
             right: 10px;
@@ -291,6 +278,174 @@
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
+        }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                align-items: flex-start;
+                padding-top: 20px;
+            }
+
+            .container {
+                padding: 20px 15px;
+                margin: 0;
+                max-width: 100%;
+                border-radius: 15px;
+                min-height: auto;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .cricket-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                margin-bottom: 12px;
+            }
+
+            .form-row,
+            .form-row-2,
+            .form-row-3,
+            .form-row-4 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .form-group {
+                margin-bottom: 18px;
+            }
+
+            label {
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+
+            input,
+            select {
+                padding: 14px 16px;
+                font-size: 16px;
+                /* Prevents zoom on iOS */
+                border-radius: 8px;
+                min-height: 50px;
+            }
+
+            .predict-btn {
+                padding: 18px;
+                font-size: 16px;
+                border-radius: 8px;
+                min-height: 58px;
+                margin-top: 10px;
+            }
+
+            .result {
+                font-size: 18px;
+                padding: 18px 15px;
+                border-radius: 8px;
+            }
+
+            .score-range {
+                font-size: 20px;
+                line-height: 1.3;
+            }
+
+            .insights {
+                font-size: 13px;
+                padding: 12px;
+                margin-top: 12px;
+            }
+
+            .insights h4 {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .insights li {
+                margin: 6px 0;
+                font-size: 12px;
+            }
+
+            .tooltip {
+                display: none;
+                /* Hide tooltips on mobile to avoid clutter */
+            }
+
+            .validation-icon {
+                top: 42px;
+                right: 14px;
+                font-size: 14px;
+            }
+
+            .error {
+                font-size: 11px;
+                margin-top: 4px;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 12px;
+                border-radius: 12px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .cricket-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            input,
+            select {
+                padding: 12px 14px;
+                min-height: 48px;
+            }
+
+            .predict-btn {
+                padding: 16px;
+                min-height: 56px;
+            }
+
+            .result {
+                font-size: 16px;
+                padding: 16px 12px;
+            }
+
+            .score-range {
+                font-size: 18px;
+            }
+        }
+
+        /* Landscape orientation on mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            body {
+                padding-top: 10px;
+            }
+
+            .container {
+                margin: 10px 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+
+            .form-row-2 {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
         }
     </style>
 </head>
