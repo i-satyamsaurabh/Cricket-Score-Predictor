@@ -9,7 +9,7 @@ A sophisticated machine learning web application that predicts final scores in T
 
 ## 🖥️ Application Preview
 
-![T20 Score Predictor Interface]()
+![T20 Score Predictor Interface](Screenshot_9-8-2025_13428_127.0.0.1.jpeg)
 
 *Modern, responsive web interface with real-time predictions and cricket intelligence*
 
