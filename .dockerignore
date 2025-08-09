@@ -13,3 +13,4 @@ README.md
 .pytest_cache
 .coverage
 node_modules/
+RUN pip install --no-cache-dir -r requirements.txt
